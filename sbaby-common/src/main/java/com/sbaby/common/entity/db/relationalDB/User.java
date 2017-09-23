@@ -1,57 +1,53 @@
 package com.sbaby.common.entity.db.relationalDB;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import javax.persistence.*;
 
+
+/**
+ * The persistent class for the user database table.
+ * 
+ */
 @Entity
 @Table(name="user")
+@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
-	private String userName;
-	
-	private Integer age;
-	
+	@Id
+	@Column(unique=true, nullable=false, length=50)
 	private String id;
-	
-	@Id  
+
+	private int age;
+
+	@Column(length=50)
+	private String userName;
+
+	public User() {
+	}
+
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	@Column(name="username")
+
+	public int getAge() {
+		return this.age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
 	public String getUserName() {
-		return userName;
+		return this.userName;
 	}
 
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
-	@Column(name="age")
-	public Integer getAge() {
-		return age;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
-	}
-
-	/**
-	 * 重新实现toString()函数方便在日志中打印Entity信息.
-	 */
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-	
 }

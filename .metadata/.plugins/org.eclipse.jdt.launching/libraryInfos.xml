@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libraryInfos>
+<libraryInfo home="E:\InstallSoftWare\jdk18for64" version="1.8.0_31">
+<bootpath>
+<entry path="E:\InstallSoftWare\jdk18for64\lib\resources.jar"/>
+<entry path="E:\InstallSoftWare\jdk18for64\lib\rt.jar"/>
+<entry path="E:\InstallSoftWare\jdk18for64\lib\sunrsasign.jar"/>
+<entry path="E:\InstallSoftWare\jdk18for64\lib\jsse.jar"/>
+<entry path="E:\InstallSoftWare\jdk18for64\lib\jce.jar"/>
+<entry path="E:\InstallSoftWare\jdk18for64\lib\charsets.jar"/>
+<entry path="E:\InstallSoftWare\jdk18for64\lib\jfr.jar"/>
+<entry path="E:\InstallSoftWare\jdk18for64\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="E:\InstallSoftWare\jdk18for64\lib\ext"/>
+<entry path="C:\Windows\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="E:\InstallSoftWare\jdk18for64\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+</libraryInfos>

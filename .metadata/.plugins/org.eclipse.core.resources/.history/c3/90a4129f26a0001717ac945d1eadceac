@@ -1,0 +1,99 @@
+package com.sbaby.common.entity.db.relationalDB;
+
+import java.io.Serializable;
+import javax.persistence.*;
+
+
+/**
+ * The persistent class for the elastic_jobs database table.
+ * 
+ */
+@Entity
+@Table(name="elastic_jobs")
+@NamedQuery(name="ElasticJob.findAll", query="SELECT e FROM ElasticJob e")
+public class ElasticJob implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false, length=50)
+	private String id;
+
+	@Column(length=200)
+	private String cron;
+
+	@Column(name="execute_class", length=500)
+	private String executeClass;
+
+	@Column(name="job_name", length=500)
+	private String jobName;
+
+	@Column(name="sharding_item_parameters")
+	private String shardingItemParameters;
+
+	@Column(name="sharding_total_count")
+	private int shardingTotalCount;
+	
+	@Column(name="enable")
+	private Boolean enable;
+
+	public ElasticJob() {
+	}
+
+	public String getId() {
+		return this.id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getCron() {
+		return this.cron;
+	}
+
+	public void setCron(String cron) {
+		this.cron = cron;
+	}
+
+	public String getExecuteClass() {
+		return this.executeClass;
+	}
+
+	public void setExecuteClass(String executeClass) {
+		this.executeClass = executeClass;
+	}
+
+	public String getJobName() {
+		return this.jobName;
+	}
+
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
+	}
+
+	public String getShardingItemParameters() {
+		return this.shardingItemParameters;
+	}
+
+	public void setShardingItemParameters(String shardingItemParameters) {
+		this.shardingItemParameters = shardingItemParameters;
+	}
+
+	public int getShardingTotalCount() {
+		return this.shardingTotalCount;
+	}
+
+	public void setShardingTotalCount(int shardingTotalCount) {
+		this.shardingTotalCount = shardingTotalCount;
+	}
+
+	public Boolean getEnable() {
+		return enable;
+	}
+
+	public void setEnable(Boolean enable) {
+		this.enable = enable;
+	}
+
+}

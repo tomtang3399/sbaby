@@ -3,6 +3,8 @@ package com.sbaby.common.entity.db.relationalDB;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 
 /**
  * The persistent class for the elastic_jobs database table.
@@ -15,7 +17,6 @@ public class ElasticJob implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(unique=true, nullable=false, length=50)
 	private String id;
 
@@ -96,4 +97,11 @@ public class ElasticJob implements Serializable {
 		this.enable = enable;
 	}
 
+	/**
+	 * 重新实现toString()函数方便在日志中打印Entity信息.
+	 */
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
 }
