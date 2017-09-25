@@ -15,27 +15,40 @@
 		<java.version>1.8</java.version>
 		<jna.version>4.2.2</jna.version>
 		<jackson.version>2.8.3</jackson.version>
+		<spring.springboot>1.4.1.RELEASE</spring.springboot>
+		<sbaby.common>0.0.2</sbaby.common>
+		<org.apache.commons>3.4</org.apache.commons>
+		<mysql-connector-java>5.1.39</mysql-connector-java>
+		<org.springframework>4.3.3.RELEASE</org.springframework>
+		<commons.collections>3.2.2</commons.collections>
+		<elastic.job>2.1.5</elastic.job>
+		<com.fasterxml.jackson.core>2.8.7</com.fasterxml.jackson.core>
+		<com.foreveross>2.3.7</com.foreveross>
+		<org.javassist>3.20.0-GA</org.javassist>
+		<de.javakaffee>0.42</de.javakaffee>
+		<com.corundumstudio.socketio>1.7.11</com.corundumstudio.socketio>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+		
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-web</artifactId>
-				<version>1.4.1.RELEASE</version>
+				<version>${spring.springboot}</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-amqp -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-amqp</artifactId>
-				<version>1.4.1.RELEASE</version>
+				<version>${spring.springboot}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter</artifactId>
-				<version>1.4.1.RELEASE</version>
+				<version>${spring.springboot}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>commons-logging</groupId>
@@ -47,7 +60,7 @@
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-				<version>1.4.1.RELEASE</version>
+				<version>${spring.springboot}</version>
 			</dependency>
 
 			<dependency>
@@ -59,7 +72,7 @@
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-test</artifactId>
-				<version>1.4.1.RELEASE</version>
+				<version>${spring.springboot}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>commons-logging</groupId>
@@ -83,43 +96,43 @@
 			<dependency>
 				<groupId>com.sbaby.common</groupId>
 				<artifactId>sbaby-common</artifactId>
-				<version>0.0.2</version>
+				<version>${sbaby.common}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-data-jpa</artifactId>
-				<version>1.4.1.RELEASE</version>
+				<version>${spring.springboot}</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
-				<version>3.4</version>
+				<version>${org.apache.commons}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
-				<version>5.1.39</version>
+				<version>${mysql-connector-java}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-tomcat</artifactId>
-				<version>1.4.1.RELEASE</version>
+				<version>${spring.springboot}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
-				<version>4.3.3.RELEASE</version>
+				<version>${org.springframework}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-framework-bom</artifactId>
-				<version>4.3.3.RELEASE</version>
+				<version>${org.springframework}</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
@@ -127,77 +140,74 @@
 			<dependency>
 				<groupId>commons-collections</groupId>
 				<artifactId>commons-collections</artifactId>
-				<version>3.2.2</version>
+				<version>${commons.collections}</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-data-redis</artifactId>
-				<version>1.4.1.RELEASE</version>
+				<version>${spring.springboot}</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/com.dangdang/elastic-job-lite-core -->
 			<dependency>
 				<groupId>com.dangdang</groupId>
 				<artifactId>elastic-job-lite-core</artifactId>
-				<version>2.1.5</version>
+				<version>${elastic.job}</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>
-				<version>2.8.7</version>
+				<version>${com.fasterxml.jackson.core}</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-jaxb-annotations -->
 			<dependency>
 				<groupId>com.fasterxml.jackson.module</groupId>
 				<artifactId>jackson-module-jaxb-annotations</artifactId>
-				<version>2.8.7</version>
+				<version>${com.fasterxml.jackson.core}</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/com.foreveross/spring-boot-starter-dubbox -->
 			<dependency>
 				<groupId>com.foreveross</groupId>
 				<artifactId>spring-boot-starter-dubbox</artifactId>
-				<version>2.3.7</version>
+				<version>${com.foreveross}</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
 			<dependency>
 				<groupId>org.javassist</groupId>
 				<artifactId>javassist</artifactId>
-				<version>3.20.0-GA</version>
+				<version>${org.javassist}</version>
 			</dependency>
 
 			<!-- dubbox config begin -->
-			
+
 			<!-- https://mvnrepository.com/artifact/com.foreveross/spring-boot-starter-dubbox -->
 			<dependency>
 				<groupId>com.foreveross</groupId>
 				<artifactId>spring-boot-starter-dubbox</artifactId>
-				<version>2.3.7</version>
+				<version>${com.foreveross}</version>
 			</dependency>
 
-			<!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
-			<dependency>
-				<groupId>org.javassist</groupId>
-				<artifactId>javassist</artifactId>
-				<version>3.20.0-GA</version>
-			</dependency>
-			
 			<!-- https://mvnrepository.com/artifact/de.javakaffee/kryo-serializers -->
 			<dependency>
-			    <groupId>de.javakaffee</groupId>
-			    <artifactId>kryo-serializers</artifactId>
-			    <version>0.42</version>
+				<groupId>de.javakaffee</groupId>
+				<artifactId>kryo-serializers</artifactId>
+				<version>${de.javakaffee}</version>
 			</dependency>
 
 			<!-- dubbox config end -->
-			
-			
+			<dependency>
+				<groupId>com.corundumstudio.socketio</groupId>
+				<artifactId>netty-socketio</artifactId>
+				<version>${com.corundumstudio.socketio}</version>
+			</dependency>
+
 
 		</dependencies>
 	</dependencyManagement>

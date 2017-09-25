@@ -1,0 +1,15 @@
+package com.sbaby.im.config;
+
+import com.corundumstudio.socketio.AuthorizationListener;
+import com.corundumstudio.socketio.HandshakeData;
+
+public class AuthListener implements AuthorizationListener{
+
+	@Override
+	public boolean isAuthorized(HandshakeData arg0) {
+		// TODO Auto-generated method stub
+		String token = arg0.getSingleUrlParam("token");
+		return false;
+	}
+
+}

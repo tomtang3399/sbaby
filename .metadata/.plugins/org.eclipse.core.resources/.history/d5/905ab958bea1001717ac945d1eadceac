@@ -1,0 +1,6 @@
+package com.sbaby.im.constants;
+
+public enum SocketMsgType {
+	CHAT,
+	PUSH
+}

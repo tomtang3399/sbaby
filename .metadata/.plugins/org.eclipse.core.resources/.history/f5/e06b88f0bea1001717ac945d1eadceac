@@ -1,0 +1,16 @@
+package com.sbaby.im.constants;
+
+public enum SocketMsgType {
+//	CHAT,
+//	PUSH;
+	
+	CHATTYPE ("聊天类型","CHATTYPE"),ROUGETYPE("通知推送类型","ROUGETYPE");
+    private final String name;
+    private SocketMsgType(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}

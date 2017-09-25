@@ -1,0 +1,27 @@
+package com.sbaby.im.config.socket;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
+
+@Configuration
+public class SocketConfig {
+
+	@Bean
+	public SocketIOServer socketServer() {
+		com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
+		
+		config.setHostname("localhost");
+		config.setPort(8086);
+		
+		config.setAuthorizationListener(new AuthListener());
+		final SocketIOServer socketIOServer = new SocketIOServer(config);
+		return socketIOServer;	
+	}
+	
+	@Bean  
+    public SpringAnnotationScanner springAnnotationScanner(SocketIOServer socketServer) {  
+        return new SpringAnnotationScanner(socketServer);  
+    }
+}

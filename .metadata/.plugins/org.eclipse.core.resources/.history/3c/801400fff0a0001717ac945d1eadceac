@@ -1,0 +1,10 @@
+package com.sbaby.im.config.cache;
+
+import org.springframework.context.annotation.Configuration;
+
+import com.sbaby.common.config.RedisConfig;
+
+@Configuration
+public class RedisConfigIM extends RedisConfig {
+
+}

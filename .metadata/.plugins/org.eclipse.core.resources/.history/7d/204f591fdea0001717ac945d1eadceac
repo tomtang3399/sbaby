@@ -1,0 +1,10 @@
+#redis集群地址,节点地址格式以:ip:port,且以;符分割
+redis.cluster.nodes.address=localhost:7100;localhost:7102;localhost:7103;localhost:7104;localhost:7105;localhost:7109
+#池中“空闲”连接的最大数目。使用负值表示无限数量的空闲连接
+redis.cluster.nodes.maxIdle=10
+#最大连接数
+redis.cluster.nodes.maxTotal=20
+#获取连接时的最大等待毫秒数(如果设置为阻塞时BlockWhenExhausted),如果超时就抛异常, 小于零:阻塞不确定的时间,  默认-1
+redis.cluster.nodes.maxWaitMillis=15000
+#执行命令时在集群中重定向的次数（我建议设置为集群node的个数）
+redis.cluster.nodes.maxRedirects=3

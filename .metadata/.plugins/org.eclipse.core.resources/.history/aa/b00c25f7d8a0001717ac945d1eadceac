@@ -1,0 +1,12 @@
+package com.sbaby.im.config;
+
+import org.springframework.context.annotation.Configuration;
+import com.corundumstudio.socketio.SocketIOServer;
+
+@Configuration
+public class SocketConfig {
+
+	private SocketIOServer socketServer() {
+		com.corundumstudio.socketio.Configuration
+	}
+}

@@ -1,0 +1,84 @@
+package com.sbaby.im.config.socket;
+
+import javax.security.auth.message.MessageInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.corundumstudio.socketio.AckRequest;
+import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.annotation.OnConnect;
+import com.corundumstudio.socketio.annotation.OnDisconnect;
+import com.corundumstudio.socketio.annotation.OnEvent;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.sbaby.common.core.CacheTemplate;
+import com.sbaby.common.util.SbabyCommonService;
+import com.sbaby.im.constants.CacheSocketSessionEnum;
+
+@Component
+public class MessageEventHandler extends SbabyCommonService {
+
+	private final SocketIOServer server;
+	
+	@Autowired  
+    public MessageEventHandler(SocketIOServer server)   
+    {  
+        this.server = server;  
+    }
+	
+	@Autowired
+	private CacheTemplate cacheTemplate;
+	
+	/**
+	 * 客户端连接事件
+	 * @param client
+	 */
+	@OnConnect
+	public void onConnect(SocketIOClient client) {
+		String clientId = client.getHandshakeData().getSingleUrlParam("clientId");
+		
+		/**
+		 * 将客户端的clientId存入redis中
+		 */
+		String sessionId = client.getSessionId().toString();
+		CacheMessageInfo cacheMessageInfo = new CacheMessageInfo();
+		cacheMessageInfo.setClientId(clientId);
+		cacheMessageInfo.setSessionId(sessionId);
+		cacheTemplate.zAdd(CacheSocketSessionEnum.ClientIdSessionId.toString(), cacheMessageInfo, System.currentTimeMillis());
+	}
+	
+	/**
+	 * 客户端断开连接事件
+	 * @param client
+	 */
+	@OnDisconnect
+	public void onDisconnect(SocketIOClient client) {
+		String clientId = client.getHandshakeData().getSingleUrlParam("clientId");
+		
+		/**
+		 * 从redis中移除该客户端连接信息
+		 */
+		String sessionId = client.getSessionId().toString();
+		CacheMessageInfo cacheMessageInfo = new CacheMessageInfo();
+		cacheMessageInfo.setClientId(clientId);
+		cacheMessageInfo.setSessionId(sessionId);
+		
+		cacheTemplate.zRemove(CacheSocketSessionEnum.ClientIdSessionId.toString(), cacheMessageInfo);
+	}
+	
+	/**
+	 * 消息发送接口
+	 * @param client
+	 * @param request
+	 * @param data
+	 */
+	@OnEvent(value = "messageEvent")
+	public void onEvent(SocketIOClient client, AckRequest request, SocketMessageInfo data) {
+		
+		//获取目标客户端编号
+		String targetClientId = data.getTargetClientId();
+		
+		
+	}
+}

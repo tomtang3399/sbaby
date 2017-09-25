@@ -1,0 +1,35 @@
+package com.sbaby.im.config.socket;
+
+public class CacheMessageInfo {
+
+	private String clientId;
+	
+	private Long mostsignbits; 
+	
+    private Long leastsignbits;
+
+	public String getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
+
+	public Long getMostsignbits() {
+		return mostsignbits;
+	}
+
+	public void setMostsignbits(Long mostsignbits) {
+		this.mostsignbits = mostsignbits;
+	}
+
+	public Long getLeastsignbits() {
+		return leastsignbits;
+	}
+
+	public void setLeastsignbits(Long leastsignbits) {
+		this.leastsignbits = leastsignbits;
+	}
+
+}

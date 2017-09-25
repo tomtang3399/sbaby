@@ -1,0 +1,5 @@
+package com.sbaby.im.config;
+
+public class SocketConfig {
+
+}

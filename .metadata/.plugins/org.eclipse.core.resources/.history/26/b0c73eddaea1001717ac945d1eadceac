@@ -1,0 +1,34 @@
+package com.sbaby.im.config.socket;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.annotation.OnConnect;
+import com.sbaby.common.core.CacheTemplate;
+
+@Component
+public class MessageEventHandler {
+
+	private final SocketIOServer server;
+	
+	@Autowired  
+    public MessageEventHandler(SocketIOServer server)   
+    {  
+        this.server = server;  
+    }
+	
+	@Autowired
+	private CacheTemplate cacheTemplate;
+	
+	@OnConnect
+	public void onConnect(SocketIOClient client) {
+		String clientId = client.getHandshakeData().getSingleUrlParam("clientId");
+		
+		/**
+		 * 将客户端的clientId存入redis中
+		 */
+		cacheTemplate.set(key, value);
+	}
+}

@@ -1,0 +1,85 @@
+package com.sbaby.common.config;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisClusterConfiguration;
+import org.springframework.data.redis.connection.RedisClusterNode;
+import org.springframework.data.redis.connection.RedisNode;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import redis.clients.jedis.JedisPoolConfig;
+
+@Configuration
+public class RedisConfig {
+
+	@Value("${redis.cluster.nodes.maxIdle}")
+	private Integer maxIdle;
+
+	@Value("${redis.cluster.nodes.maxTotal}")
+	private Integer maxTotal;
+
+	@Value("${redis.cluster.nodes.maxWaitMillis}")
+	private Long maxWaitMillis;
+
+	@Value("${redis.cluster.nodes.maxRedirects}")
+	private Integer maxRedirects;
+
+	@Value("${redis.cluster.nodes.address}")
+	private String clusterAddress = "";
+
+	/**
+	 * 配置连接池
+	 * 
+	 * @return
+	 */
+	public JedisPoolConfig jedisPoolConfig() {
+		JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+		jedisPoolConfig.setMaxIdle(maxIdle);// 池中“空闲”连接的最大数目。使用负值表示无限数量的空闲连接
+		jedisPoolConfig.setMaxTotal(maxTotal);// 最大连接数
+		jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);// 获取连接时的最大等待毫秒数(如果设置为阻塞时BlockWhenExhausted),如果超时就抛异常,
+														// 小于零:阻塞不确定的时间, 默认-1
+		return jedisPoolConfig;
+	}
+
+	/**
+	 * 集群配置
+	 * 
+	 * @return
+	 */
+	public RedisClusterConfiguration redisClusterConfiguration() {
+		RedisClusterConfiguration configuration = new RedisClusterConfiguration();
+
+		List<RedisNode> nodes = new ArrayList<RedisNode>();
+
+		String[] nodeString = clusterAddress.split(";");
+		for (String str : nodeString) {
+			String[] nodeParams = str.split(":");
+			RedisClusterNode node = new RedisClusterNode(nodeParams[0], Integer.parseInt(nodeParams[1]));
+			nodes.add(node);
+		}
+		configuration.setClusterNodes(nodes);
+		configuration.setMaxRedirects(maxRedirects);
+
+		return configuration;
+	}
+
+	@Bean
+	public JedisConnectionFactory getJedisConnectionFactory() {
+		JedisConnectionFactory factory = new JedisConnectionFactory(redisClusterConfiguration(), jedisPoolConfig());
+		factory.afterPropertiesSet();
+		return factory;
+	}
+
+	@Bean
+	public RedisTemplate<String, Object> getRedisTemplate() {
+		RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
+		template.setConnectionFactory(getJedisConnectionFactory());
+		template.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
+		return template;
+	}
+
+}

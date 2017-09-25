@@ -1,0 +1,118 @@
+package com.sbaby.im.config.socket;
+
+import java.util.UUID;
+
+import javax.security.auth.message.MessageInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.corundumstudio.socketio.AckRequest;
+import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.annotation.OnConnect;
+import com.corundumstudio.socketio.annotation.OnDisconnect;
+import com.corundumstudio.socketio.annotation.OnEvent;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.sbaby.common.core.CacheTemplate;
+import com.sbaby.common.core.JsonMapper;
+import com.sbaby.common.util.SbabyCommonService;
+import com.sbaby.im.constants.CacheSocketSessionEnum;
+
+@Component
+public class MessageEventHandler extends SbabyCommonService {
+
+	private final SocketIOServer server;
+	
+	@Autowired  
+    public MessageEventHandler(SocketIOServer server)   
+    {  
+        this.server = server;  
+    }
+	
+	@Autowired
+	private CacheTemplate cacheTemplate;
+	
+	/**
+	 * 客户端连接事件
+	 * @param client
+	 */
+	@OnConnect
+	public void onConnect(SocketIOClient client) {
+		String clientId = client.getHandshakeData().getSingleUrlParam("clientId");
+		
+		//将客户端的clientId存入/更新到redis中
+		String sessionId = client.getSessionId().toString();
+		CacheMessageInfo cacheMessageInfo = new CacheMessageInfo();
+		cacheMessageInfo.setClientId(clientId);
+		cacheMessageInfo.setSessionId(sessionId);
+		cacheMessageInfo.setConnected((short)1);
+		cacheMessageInfo.setConnectedTimes(System.currentTimeMillis());
+		cacheTemplate.hPush(CacheSocketSessionEnum.ClientIdSessionId.toString(), clientId, cacheMessageInfo);
+		
+	}
+	
+	/**
+	 * 客户端断开连接事件
+	 * @param client
+	 */
+	@OnDisconnect
+	public void onDisconnect(SocketIOClient client) {
+		String clientId = client.getHandshakeData().getSingleUrlParam("clientId");
+		
+		if (checkCacheClientExist(clientId)) {
+			//从redis中更新该客户端连接信息
+			CacheMessageInfo cacheMessageInfo = (CacheMessageInfo)cacheTemplate.hGet(CacheSocketSessionEnum.ClientIdSessionId.toString(), clientId);
+			cacheMessageInfo.setConnected((short)0);
+			cacheMessageInfo.setDisConnectedTimes(System.currentTimeMillis());
+			cacheTemplate.hPush(CacheSocketSessionEnum.ClientIdSessionId.toString(), clientId, cacheMessageInfo);
+		}
+	}
+	
+	/**
+	 * 消息发送接口
+	 * @param client
+	 * @param request
+	 * @param data
+	 */
+	@OnEvent(value = "sendMessageEvent")
+	public void onEvent(SocketIOClient client, AckRequest request, SocketMessageInfo data) {
+		
+		//获取目标客户端编号
+		String targetClientId = data.getTargetClientId();
+		
+		if (checkCacheClientExist(targetClientId)) {
+			//在线则直接推送
+			CacheMessageInfo cacheMessageInfo = (CacheMessageInfo)cacheTemplate.hGet(CacheSocketSessionEnum.ClientIdSessionId.toString(), targetClientId);
+			UUID uuid = UUID.fromString(cacheMessageInfo.getSessionId());
+			server.getClient(uuid).sendEvent("sendMessageEvent", data);
+		} else {
+			//离线则缓存消息，等该client上线后做消息推送
+			
+		}
+	}
+	
+	/**
+	 * 检查redis中是否存在该客户端的信息
+	 * @param clientId
+	 * @return
+	 */
+	public Boolean checkCacheClientExist(String clientId) {
+		//判断redis中是否存在该客户端信息
+		Boolean bool = cacheTemplate.hExist(CacheSocketSessionEnum.ClientIdSessionId.toString(), clientId);
+		bool = bool==null?false:bool;
+		return bool;
+	}
+	
+	/**
+	 * 检查redis中该客户端是否在线，在业务逻辑调用该方法之前建议先调用判断redis中是否存在该客户端信息方法，并作出当该信息不存在时的返回
+	 * @param clientId
+	 * @return
+	 */
+	public Boolean checkCacheClientOnLine(String clientId) {
+		//判断redis中是否存在该客户端信息
+		CacheMessageInfo cacheMessageInfo = (CacheMessageInfo)cacheTemplate.hGet(CacheSocketSessionEnum.ClientIdSessionId.toString(), clientId);
+		
+		return bool;
+	}
+}

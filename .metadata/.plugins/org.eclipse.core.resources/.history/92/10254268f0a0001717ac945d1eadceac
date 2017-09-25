@@ -1,0 +1,12 @@
+package com.sbaby.im.config.cache;
+
+import com.sbaby.common.config.RedisConfig;
+
+@Configuration
+public class RedisConfigIM extends RedisConfig {
+
+	
+	
+	
+
+}

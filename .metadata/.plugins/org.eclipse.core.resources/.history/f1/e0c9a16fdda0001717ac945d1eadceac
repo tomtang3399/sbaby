@@ -1,0 +1,5 @@
+redis.cluster.nodes.address=localhost:7100;localhost:7102;localhost:7103;localhost:7104;localhost:7105;localhost:7109
+redis.cluster.nodes.maxIdle=10
+redis.cluster.nodes.maxTotal=20
+redis.cluster.nodes.maxWaitMillis=15000
+redis.cluster.nodes.maxRedirects=3

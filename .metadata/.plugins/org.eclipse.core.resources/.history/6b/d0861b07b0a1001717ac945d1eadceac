@@ -1,0 +1,5 @@
+package com.sbaby.im.config.socket;
+
+public class CacheMessageInfo {
+
+}
